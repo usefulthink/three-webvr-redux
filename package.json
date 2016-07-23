@@ -1,0 +1,72 @@
+{
+  "name": "three.js",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "test": "mocha --compilers js:babel-register test/*.js && eslint lib test",
+    "start": "npm-run-all clean link-assets copy --parallel budo watch:*",
+    "clean": "rm -rf build && mkdir build",
+    "copy": "cp -vr src/*.html node_modules/three/build/three.js build/",
+    "link-assets": "cd build && ln -s ../assets",
+    "budo": "budo src/main.js:main.js --dir=build/ -- -t babelify -o build/main.js src/main.js",
+    "watch:stylus": "stylus --watch --include-css --sourcemap-inline styles/main.styl -u autoprefixer-stylus -o build/main.css",
+    "watch:static": "watch 'npm run copy' src/ assets/",
+    "build": "npm-run-all clean copy -p build:js build:css -s build:html",
+    "build:js": "browserify -d -t babelify -o build/main.js src/main.js && uglifyjs --screw-ie8 --mangle < build/main.js > build/main.min.js",
+    "build:css": "stylus --sourcemap-inline styles/main.styl -u autoprefixer-stylus -o build/main.css && cssmin build/main.css > build/main.min.css",
+    "build:html": "cp src/index.html build/sourcemapped.html && sed 's,main.\\(js\\|css\\),main.min.\\1,g' < src/index.html | html-inline --ignore-scripts -o build/index.html -b build/"
+  },
+  "author": "Martin Schuhfuss <m.schuhfuss@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "autoprefixer-stylus": "^0.8.1",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-register": "^6.5.1",
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0",
+    "browserify-shim": "^3.8.12",
+    "budo": "^7.0.0",
+    "cssmin": "^0.4.3",
+    "html-inline": "^1.2.0",
+    "mocha": "^2.4.5",
+    "npm-run-all": "^1.5.1",
+    "redux": "^3.5.2",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.3",
+    "sinon": "^1.17.3",
+    "stats.js": "0.0.14-master",
+    "stylus": "^0.52.4",
+    "three.js": "file:///Users/martins/local/src/three.js",
+    "tween.js": "^16.3.4",
+    "uglifyjs": "^2.4.10",
+    "unexpected": "^10.8.1",
+    "watch": "^0.16.0"
+  },
+  "dependencies": {},
+  "babel": {
+    "ignore": [
+      "lib/vendor/*"
+    ],
+    "presets": [
+      "es2015"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
+  },
+  "browser": {
+    "dat-gui": "./lib/vendor/dat.gui.js"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "three.js": "global:THREE",
+    "dat-gui": "dat"
+  }
+}
