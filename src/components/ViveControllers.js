@@ -1,5 +1,5 @@
 import THREE from '../../lib/three';
-import ViveController from '../../lib/ViveController';
+import ViveController from '../../lib/vive-controller/ViveController';
 
 import {createSelector} from 'reselect';
 import * as selectors from '../selectors';
