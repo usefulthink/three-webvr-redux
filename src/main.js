@@ -1,9 +1,10 @@
 
 import TWEEN from 'tween.js';
 import Stats from 'stats.js';
-import WEBVR from '../lib/WebVR';
 
 import App from './App';
+import WebVRButton from './WebVRButton';
+
 import initStore from './store';
 import {setTimestamp} from './redux/app';
 
@@ -20,19 +21,20 @@ requestAnimationFrame(function __loop(timestamp) {
   TWEEN.update();
   app.update();
   app.render();
+
   stats.end();
 });
 
 document.body.appendChild(app.getDomElement());
 
-// FIXME: this should use the detection from redux/webvr
-if (WEBVR.isLatestAvailable() === false) {
-  document.body.appendChild(WEBVR.getMessage());
-}
 
-if (WEBVR.isAvailable() === true) {
-  document.body.appendChild(WEBVR.getButton(app.vrEffect));
-}
+// init button
+let button = new WebVRButton(store.dispatch);
+
+document.body.appendChild(button.getDomElement());
+store.subscribe(() => {
+  button.update(WebVRButton.selector(store.getState()));
+});
 
 
 function initStats() {

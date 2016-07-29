@@ -20,6 +20,8 @@ export default class App {
     this.vrEffect = null;
     this.scene = null;
 
+    this.isPresenting = false;
+
     this.initRenderer();
     this.initScene();
     this.initCamera();
@@ -53,14 +55,20 @@ export default class App {
    * Update the whole application. Is called by the renderloop before rendering.
    */
   update() {
-    const state = this.select(this.store.getState());
+    const state = this.store.getState();
 
     this.vrControls.update();
     // TODO: handle VR state-changes (also: implement startPresenting-action)
 
+    if (this.isPresenting !== state.webvr.isPresenting) {
+      this.vrEffect.setFullScreen(state.webvr.isPresenting);
+      this.isPresenting = state.webvr.isPresenting;
+    }
+
     // update all components with their state
+    const componentState = this.select(state);
     Object.keys(this.components)
-      .forEach(id => this.components[id].update(state[id]));
+      .forEach(id => this.components[id].update(componentState[id]));
   }
 
   /**

@@ -3,10 +3,12 @@ const SET_SUPPORTED = 'webvr/SET_SUPPORTED';
 const SET_DISPLAYS = 'webvr/SET_DISPLAYS';
 const SET_CONTROLLER_IDS = 'webvr/SET_CONTROLLER_IDS';
 const SET_STANDING_MATRIX = 'webvr/SET_STANDING_MATRIX';
+const SET_IS_PRESENTING = 'webvr/SET_IS_PRESENTING';
 
 const initialState = {
   initialized: false,
   isSupported: false,
+  isPresenting: false,
   displays: [],
   controllerIds: []
 };
@@ -19,6 +21,11 @@ export default function webvrReducer(state = initialState, action) {
     case SET_INITIALIZED: return {
       ...state,
       initialized: true
+    };
+
+    case SET_IS_PRESENTING: return {
+      ...state,
+      isPresenting: action.payload
     };
 
     case SET_SUPPORTED: return {
@@ -102,6 +109,13 @@ function setControllerIds(ids) {
   return {
     type: SET_CONTROLLER_IDS,
     payload: ids
+  };
+}
+
+export function setIsPresenting(value) {
+  return {
+    type: SET_IS_PRESENTING,
+    payload: value
   };
 }
 
