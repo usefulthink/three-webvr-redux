@@ -29,16 +29,19 @@ export default class WebVRButton {
     }
 
     this.state = state;
-    if (!state.isInitialized) {
-      this.button.innerText = '';
+    if (!state.initialized) {
+      this.button.style.display = 'none';
     } else if (!state.isSupported) {
       this.button.disabled = true;
+      this.button.style.display = '';
       this.button.classList.add('webvr-button--disabled');
       this.button.innerText = 'VR not supported';
     } else if (state.isPresenting) {
+      this.button.style.display = '';
       this.button.classList.add('webvr-button--presenting');
       this.button.innerText = 'Exit VR';
     } else {
+      this.button.style.display = '';
       this.button.classList.remove('webvr-button--presenting');
       this.button.innerText = 'Enter VR';
     }
