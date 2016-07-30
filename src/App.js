@@ -31,7 +31,6 @@ export default class App {
     // continually updated by THREE.VRControls, so we only need to set it once.
     this.store.dispatch(setStandingMatrix(this.vrControls.getStandingMatrix()));
 
-    // TODO: think about if we really need this here?
     this.components = {
       test: new TestComponent(this.scene, this.store.dispatch),
       controllers: new ViveControllers(this.scene, this.store.dispatch)
@@ -58,7 +57,6 @@ export default class App {
     const state = this.store.getState();
 
     this.vrControls.update();
-    // TODO: handle VR state-changes (also: implement startPresenting-action)
 
     if (this.isPresenting !== state.webvr.isPresenting) {
       this.vrEffect.setFullScreen(state.webvr.isPresenting);
@@ -97,8 +95,8 @@ export default class App {
     window.scene = this.scene = new THREE.Scene();
 
     // ---- basic lighting
-    const dirLight = new THREE.DirectionalLight(0xffffff, .8);
-    const ambLight = new THREE.HemisphereLight(0xffffff, 0xffffff, .2);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    const ambLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.2);
     dirLight.position.set(-1, 2, 1);
 
     this.scene.add(dirLight, ambLight);

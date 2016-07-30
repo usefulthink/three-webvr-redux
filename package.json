@@ -1,9 +1,9 @@
 {
-  "name": "three.js",
+  "name": "three-webvr-bootstrap",
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "test": "mocha --compilers js:babel-register test/*.js && eslint lib test",
+    "test": "mocha --compilers js:babel-register test/**/*.js && eslint lib test --ignore-pattern lib/vendor",
     "start": "npm-run-all clean link-assets copy --parallel budo watch:*",
     "clean": "rm -rf build && mkdir build",
     "copy": "cp -vr src/*.html node_modules/three/build/three.js build/",
@@ -29,6 +29,7 @@
     "browserify-shim": "^3.8.12",
     "budo": "^7.0.0",
     "cssmin": "^0.4.3",
+    "eslint": "^3.2.0",
     "html-inline": "^1.2.0",
     "mocha": "^2.4.5",
     "npm-run-all": "^1.5.1",
@@ -39,13 +40,15 @@
     "sinon": "^1.17.3",
     "stats.js": "0.0.14-master",
     "stylus": "^0.52.4",
-    "three.js": "file:///Users/martins/local/src/three.js",
+    "three": "^0.79.0",
     "tween.js": "^16.3.4",
     "uglifyjs": "^2.4.10",
-    "unexpected": "^10.8.1",
-    "watch": "^0.16.0"
+    "unexpected": "^10.15.0",
+    "watch": "^0.16.0",
+    "babel-eslint": "^6.1.2"
   },
-  "dependencies": {},
+  "dependencies": {
+  },
   "babel": {
     "ignore": [
       "lib/vendor/*"

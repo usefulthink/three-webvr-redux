@@ -13,11 +13,10 @@ const initialState = {
   controllerIds: []
 };
 
-
 // ---- reducer
 
 export default function webvrReducer(state = initialState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case SET_INITIALIZED: return {
       ...state,
       initialized: true
@@ -46,12 +45,11 @@ export default function webvrReducer(state = initialState, action) {
     case SET_STANDING_MATRIX: return {
       ...state,
       standingMatrix: action.payload
-    }
+    };
   }
 
   return state;
 }
-
 
 // ---- thunk-actions
 
@@ -60,7 +58,9 @@ export function init() {
     dispatch(setInitialized());
 
     if (!navigator.getVRDisplays) {
-      return dispatch(setSupported(false));
+      dispatch(setSupported(false));
+
+      return;
     }
 
     dispatch(setSupported(true));
@@ -72,7 +72,6 @@ export function init() {
       });
   };
 }
-
 
 // ---- action-creators
 /**
@@ -125,11 +124,10 @@ export function setIsPresenting(value) {
  * @param {function} dispatch The dispatcher-function
  */
 function startGamepadDetection(dispatch) {
-  requestAnimationFrame(function detectGamepadLoop() {
+  const intervalId = setInterval(() => {
     const gamepads = navigator.getGamepads();
     const gamepadIds = [];
 
-    // TODO: find a way to improve this...
     for (let i = 0; i < gamepads.length; i++) {
       const gamepad = gamepads.item(i);
 
@@ -143,8 +141,8 @@ function startGamepadDetection(dispatch) {
       dispatch(setControllerIds(gamepadIds));
     }
 
-    if (gamepadIds.length < 2) {
-      requestAnimationFrame(detectGamepadLoop);
+    if (gamepadIds.length === 2) {
+      clearInterval(intervalId);
     }
-  });
+  }, 250);
 }

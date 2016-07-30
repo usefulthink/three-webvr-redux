@@ -16,19 +16,18 @@ export default class TestComponent {
     this.dispatch = dispatch;
 
     this.mesh = new THREE.Mesh(
-      new THREE.BoxBufferGeometry(.5, .5, .5),
+      new THREE.BoxBufferGeometry(0.5, 0.5, 0.5),
       new THREE.MeshStandardMaterial({color: 0xccff33})
     );
 
-    this.mesh.position.set(0,1,0);
+    this.mesh.position.set(0, 1, 0);
     container.add(this.mesh);
   }
 
   update(state) {
-    this.mesh.position.y = 1 + 0.3 * Math.sin(state.timestamp/4000)
+    this.mesh.position.y = 1 + 0.3 * Math.sin(state.timestamp / 4000);
   }
 }
-
 
 /**
  * Every component has to define it's own select-function to retrieve the

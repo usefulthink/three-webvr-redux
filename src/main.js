@@ -27,15 +27,13 @@ requestAnimationFrame(function __loop(timestamp) {
 
 document.body.appendChild(app.getDomElement());
 
-
 // init button
-let button = new WebVRButton(store.dispatch);
+const button = new WebVRButton(store.dispatch);
 
 document.body.appendChild(button.getDomElement());
 store.subscribe(() => {
   button.update(WebVRButton.selector(store.getState()));
 });
-
 
 function initStats() {
   const stats = new Stats();

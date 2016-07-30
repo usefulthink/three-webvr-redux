@@ -6,10 +6,11 @@ const initialState = {};
 
 export default function settingsReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_PARAMETER:
+    case SET_PARAMETER: {
       const {name, value} = action.payload;
 
       return Object.assign({}, state, {[name]: value});
+    }
   }
 
   return state;
