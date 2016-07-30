@@ -56,11 +56,18 @@ export default class App {
   update() {
     const state = this.store.getState();
 
-    this.vrControls.update();
-
     if (this.isPresenting !== state.webvr.isPresenting) {
       this.vrEffect.setFullScreen(state.webvr.isPresenting);
       this.isPresenting = state.webvr.isPresenting;
+    }
+
+    if (this.isPresenting) {
+      this.vrControls.update();
+    } else {
+      const dt = (state.app.timestamp - this.timestamp) || 0;
+      this.timestamp = state.app.timestamp;
+
+      this.flyControls.update(dt);
     }
 
     // update all components with their state
@@ -122,5 +129,11 @@ export default class App {
   initControls() {
     this.vrControls = new THREE.VRControls(this.camera);
     this.vrControls.standing = true;
+
+    this.flyControls = new THREE.FlyControls(this.camera);
+    this.flyControls.autoForward = false;
+    this.flyControls.dragToLook = true;
+    this.flyControls.movementSpeed = 0.002;
+    this.flyControls.rollSpeed = 0.0003;
   }
 }
