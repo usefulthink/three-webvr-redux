@@ -120,7 +120,9 @@ export function setIsPresenting(value) {
 
 /**
  * Starts the gamepad-detection. ViveControllers are registered as gamepads
- * once getVRDisplays() has been called.
+ * once getVRDisplays() has been called and a button on the controller was
+ * pressed.
+ *
  * @param {function} dispatch The dispatcher-function
  */
 function startGamepadDetection(dispatch) {
